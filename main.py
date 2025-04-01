@@ -1,6 +1,7 @@
 from flask import Flask, render_template_string, request
 import requests
 import xml.etree.ElementTree as ET
+import feedparser
 from datetime import date, timedelta
 
 app = Flask(__name__)
@@ -55,20 +56,17 @@ def search_ted_for_keyword(keyword):
     return response.content
 
 def parse_feed(feed_data):
-    ns = {'atom': 'http://www.w3.org/2005/Atom'}
-    root = ET.fromstring(feed_data)
+    parsed = feedparser.parse(feed_data)
     entries = []
-    for entry in root.findall('atom:entry', ns):
-        title = entry.find('atom:title', ns).text
-        link = entry.find('atom:link', ns).attrib['href']
-        summary = entry.find('atom:summary', ns).text
-        published = entry.find('atom:published', ns).text
+
+    for entry in parsed.entries:
         entries.append({
-            'title': title,
-            'link': link,
-            'summary': summary,
-            'published': published
+            'title': entry.title,
+            'link': entry.link,
+            'summary': entry.summary,
+            'published': entry.published
         })
+
     return entries
 
 @app.route('/', methods=['GET', 'POST'])

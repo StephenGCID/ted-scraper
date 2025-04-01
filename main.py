@@ -6,8 +6,8 @@ from datetime import date, timedelta
 
 app = Flask(__name__)
 
-KEYWORDS = ['entrepreneurship', 'innovation', 'incubator', 'accelerator']
-DAYS_BACK = 14
+KEYWORDS = ['entrepreneurship', 'innovation', 'incubator', 'accelerator', 'training']
+DAYS_BACK = 60
 COUNTRY_CODE = 'IE'
 BASE_URL = 'https://ted.europa.eu/TED/rss/Export.do'
 
